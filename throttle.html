@@ -35,7 +35,6 @@
       const throttleFn = throttle(pureFn, 1000, false);
       dom.addEventListener('input', e => {
         const value = e.target.value;
-        // pureFn(value, Date.now());
         throttleFn(value, Date.now());
       });
     </script>

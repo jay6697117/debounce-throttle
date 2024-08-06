@@ -18,7 +18,6 @@
           if (!timer && immediate) {
             func(...args);
           }
-          // console.log('timer :', timer);
           timer = setTimeout(() => {
             func(...args);
           }, delay);
@@ -29,15 +28,10 @@
         console.log('%c执行成功params:', 'color: red; font-size: 14px;', params);
       }
 
-      function sleep(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms));
-      }
-
       const dom = document.getElementById('id');
       const debounceFn = debounce(pureFn, 500, true);
       dom.addEventListener('input', e => {
         const value = e.target.value;
-        // pureFn(value, Date.now());
         debounceFn(value, Date.now());
       });
     </script>
