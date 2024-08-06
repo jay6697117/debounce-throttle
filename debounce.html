@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input style="width: 80%; height: 30px" type="text" id="id" />
+    <script>
+      let timer = null;
+      function debounce(func, delay, immediate = false) {
+        return (...args) => {
+          //清除定时器  如果注释的话还是那么多频次，只是每次推迟了
+          if (timer) {
+            clearTimeout(timer);
+          }
+          if (!timer && immediate) {
+            func(...args);
+          }
+          // console.log('timer :', timer);
+          timer = setTimeout(() => {
+            func(...args);
+          }, delay);
+        };
+      }
+
+      function pureFn(...params) {
+        console.log('%c执行成功params:', 'color: red; font-size: 14px;', params);
+      }
+
+      function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+      }
+
+      const dom = document.getElementById('id');
+      const debounceFn = debounce(pureFn, 500, true);
+      dom.addEventListener('input', e => {
+        const value = e.target.value;
+        // pureFn(value, Date.now());
+        debounceFn(value, Date.now());
+      });
+    </script>
+  </body>
+</html>

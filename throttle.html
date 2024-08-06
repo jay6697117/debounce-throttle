@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input style="width: 80%; height: 30px" type="text" id="id" />
+    <script>
+      const throttle = (func, delay) => {
+        let last = 0;
+        let deferTimer = null;
+        return args => {
+          // 干掉触发
+          let now = Date.now();
+          if (last && now < last + delay) {
+            clearTimeout(deferTimer);
+            deferTimer = setTimeout(() => {
+              last = now;
+              func(args);
+            }, delay);
+          } else {
+            last = now; // 第一次时间
+            func(args); // 先执行一次
+          }
+        };
+      };
+
+      function pureFn(...params) {
+        console.log('%c执行成功params:', 'color: red; font-size: 14px;', params);
+      }
+
+      const dom = document.getElementById('id');
+      const throttleFn = throttle(pureFn, 1000, false);
+      dom.addEventListener('input', e => {
+        const value = e.target.value;
+        // pureFn(value, Date.now());
+        throttleFn(value, Date.now());
+      });
+    </script>
+  </body>
+</html>
